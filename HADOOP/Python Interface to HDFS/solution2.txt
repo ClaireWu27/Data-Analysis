@@ -1,0 +1,48 @@
+(1)
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ nano 1.py
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ chmod u+x 1.py
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ cat 1.py
+#!/usr/bin/env python3
+from snakebite.client import Client
+client = Client('localhost', 9000)
+for x in client.ls(['/user/bigdata']):
+  print(x['path'])
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ ./1.py
+/user/bigdata/folder1
+/user/bigdata/folder2
+
+
+(2)
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ nano 2.py
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ chmod u+x 2.py
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ cat 2.py
+#!/usr/bin/env python3
+from snakebite.client import Client
+client = Client('localhost', 9000)
+for folder  in client.ls(['/user/bigdata']):
+  print(folder['path'])
+  for file in client.ls([folder['path']]) :
+    print(file)
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ ./2.py
+/user/bigdata/folder1
+{'file_type': 'f', 'permission': 420, 'path': '/user/bigdata/folder1/1.txt', 'length': 88, 'owner': 'bigdata', 'group': 'supergroup', 'block_replication': 1, 'modification_time': 1722929071190, 'access_time': 1722929070532, 'blocksize': 134217728}
+/user/bigdata/folder2
+{'file_type': 'f', 'permission': 420, 'path': '/user/bigdata/folder2/2.txt', 'length': 86, 'owner': 'bigdata', 'group': 'supergroup', 'block_replication': 1, 'modification_time': 1722929081062, 'access_time': 1722929080970, 'blocksize': 134217728}
+
+(3)
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ nano 3.py
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ chmod u+x 3.py
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ cat 3.py
+#!/usr/bin/env python3
+from snakebite.client import Client
+client = Client('localhost', 9000)
+files = []
+for x in client.ls(['/user/bigdata/folder*/*.txt']):
+  if x['file_type'] == 'f':
+    files.append(x['path'])
+for cat in client.text(files):
+  print(cat)
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ ./3.py
+b'Full name:Meihui Wu   Student number:8327464\nEnrolled Lab:13:30-15:30 Wednesday\n1111111\n'
+b'Full name:Meihui Wu   Student number:8327464\nEnrolled Lab:13:30-15:30 Wednesday\n22222\n'
+

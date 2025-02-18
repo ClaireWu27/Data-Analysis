@@ -1,0 +1,177 @@
+HBase Shell; enter 'help<RETURN>' for list of supported commands.
+Type "exit<RETURN>" to leave the HBase Shell
+Version 1.2.6, rUnknown, Mon May 29 02:25:32 CDT 2017
+
+create 'applications', 'applicant_info', 'application_info', 'position_info', 'employer_info'
+0 row(s) in 2.3390 seconds
+
+Hbase::Table - applications
+
+# Applicant Data
+put 'applications', 'applicant|001', 'applicant_info:applicant_number', '001'
+0 row(s) in 0.0660 seconds
+
+put 'applications', 'applicant|001', 'applicant_info:full_name', 'John Smith'
+0 row(s) in 0.0040 seconds
+
+put 'applications', 'applicant|001', 'applicant_info:date_of_birth', '1998-05-15'
+0 row(s) in 0.0020 seconds
+
+
+put 'applications', 'applicant|002', 'applicant_info:applicant_number', '002'
+0 row(s) in 0.0020 seconds
+
+put 'applications', 'applicant|002', 'applicant_info:full_name', 'Jessica Duck'
+0 row(s) in 0.0050 seconds
+
+put 'applications', 'applicant|002', 'applicant_info:date_of_birth', '2000-08-20'
+0 row(s) in 0.0030 seconds
+
+
+put 'applications', 'applicant|003', 'applicant_info:applicant_number', '003'
+0 row(s) in 0.0060 seconds
+
+put 'applications', 'applicant|003', 'applicant_info:full_name', 'Claire Young'
+0 row(s) in 0.0020 seconds
+
+put 'applications', 'applicant|003', 'applicant_info:date_of_birth', '1995-09-01'
+0 row(s) in 0.0010 seconds
+
+
+# Application Data linked with Applicant, Position, and Employer
+put 'applications', 'application|001|p1|e1', 'application_info:application_number', '111'
+0 row(s) in 0.0030 seconds
+
+put 'applications', 'application|001|p1|e1', 'application_info:total_skills', '5'
+0 row(s) in 0.0040 seconds
+
+put 'applications', 'application|001|p1|e1', 'application_info:education_level', 'Bachelor'
+0 row(s) in 0.0030 seconds
+
+
+# Position Information
+put 'applications', 'application|001|p1|e1', 'position_info:position_number', 'p1'
+0 row(s) in 0.0020 seconds
+
+put 'applications', 'application|001|p1|e1', 'position_info:title', 'Software Engineer'
+0 row(s) in 0.0050 seconds
+
+put 'applications', 'application|001|p1|e1', 'position_info:salary', '70000'
+0 row(s) in 0.0040 seconds
+
+
+# Employer Information
+put 'applications', 'application|001|p1|e1', 'employer_info:ename', 'TechCorp'
+0 row(s) in 0.0050 seconds
+
+put 'applications', 'application|001|p1|e1', 'employer_info:phone', '0433445678'
+0 row(s) in 0.0030 seconds
+
+
+
+put 'applications', 'application|002|p2|e2', 'application_info:application_number', '222'
+0 row(s) in 0.0040 seconds
+
+put 'applications', 'application|002|p2|e2', 'application_info:total_skills', '6'
+0 row(s) in 0.0060 seconds
+
+put 'applications', 'application|002|p2|e2', 'application_info:education_level', 'Master'
+0 row(s) in 0.0010 seconds
+
+
+# Position Information
+put 'applications', 'application|002|p2|e2', 'position_info:position_number', 'p2'
+0 row(s) in 0.0020 seconds
+
+put 'applications', 'application|002|p2|e2', 'position_info:title', 'Data Scientist'
+0 row(s) in 0.0020 seconds
+
+put 'applications', 'application|002|p2|e2', 'position_info:salary', '90000'
+0 row(s) in 0.0080 seconds
+
+
+# Employer Information
+put 'applications', 'application|002|p2|e2', 'employer_info:ename', 'DataCorp'
+0 row(s) in 0.0080 seconds
+
+put 'applications', 'application|002|p2|e2', 'employer_info:phone', '0425447890'
+0 row(s) in 0.0040 seconds
+
+
+
+put 'applications', 'application|003|p3|e3', 'application_info:application_number', '333'
+0 row(s) in 0.0020 seconds
+
+put 'applications', 'application|003|p3|e3', 'application_info:total_skills', '7'
+0 row(s) in 0.0020 seconds
+
+put 'applications', 'application|003|p3|e3', 'application_info:education_level', 'Diploma'
+0 row(s) in 0.0010 seconds
+
+
+# Position Information
+put 'applications', 'application|003|p3|e3', 'position_info:position_number', 'p3'
+0 row(s) in 0.0100 seconds
+
+put 'applications', 'application|003|p3|e3', 'position_info:title', 'Technical Support'
+0 row(s) in 0.0010 seconds
+
+put 'applications', 'application|003|p3|e3', 'position_info:salary', '50000'
+0 row(s) in 0.0010 seconds
+
+
+# Employer Information
+put 'applications', 'application|003|p3|e3', 'employer_info:ename', 'SupportHub'
+0 row(s) in 0.0010 seconds
+
+put 'applications', 'application|003|p3|e3', 'employer_info:phone', '0425438989'
+0 row(s) in 0.0030 seconds
+
+
+describe 'applications'
+Table applications is ENABLED
+applications
+COLUMN FAMILIES DESCRIPTION
+{NAME => 'applicant_info', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}
+{NAME => 'application_info', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}
+{NAME => 'employer_info', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}
+{NAME => 'position_info', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}
+4 row(s) in 0.0110 seconds
+
+scan 'applications'
+ROW  COLUMN+CELL
+ applicant|001 column=applicant_info:applicant_number, timestamp=1729560481657, value=001
+ applicant|001 column=applicant_info:date_of_birth, timestamp=1729560481693, value=1998-05-15
+ applicant|001 column=applicant_info:full_name, timestamp=1729560481678, value=John Smith
+ applicant|002 column=applicant_info:applicant_number, timestamp=1729560481698, value=002
+ applicant|002 column=applicant_info:date_of_birth, timestamp=1729560481714, value=2000-08-20
+ applicant|002 column=applicant_info:full_name, timestamp=1729560481706, value=Jessica Duck
+ applicant|003 column=applicant_info:applicant_number, timestamp=1729560481723, value=003
+ applicant|003 column=applicant_info:date_of_birth, timestamp=1729560481731, value=1995-09-01
+ applicant|003 column=applicant_info:full_name, timestamp=1729560481726, value=Claire Young
+ application|001|p1|e1 column=application_info:application_number, timestamp=1729560481736, value=111
+ application|001|p1|e1 column=application_info:education_level, timestamp=1729560481750, value=Bachelor
+ application|001|p1|e1 column=application_info:total_skills, timestamp=1729560481742, value=5
+ application|001|p1|e1 column=employer_info:ename, timestamp=1729560481780, value=TechCorp
+ application|001|p1|e1 column=employer_info:phone, timestamp=1729560481785, value=0433445678
+ application|001|p1|e1 column=position_info:position_number, timestamp=1729560481758, value=p1
+ application|001|p1|e1 column=position_info:salary, timestamp=1729560481771, value=70000
+ application|001|p1|e1 column=position_info:title, timestamp=1729560481766, value=Software Engineer
+ application|002|p2|e2 column=application_info:application_number, timestamp=1729560481791, value=222
+ application|002|p2|e2 column=application_info:education_level, timestamp=1729560481802, value=Master
+ application|002|p2|e2 column=application_info:total_skills, timestamp=1729560481799, value=6
+ application|002|p2|e2 column=employer_info:ename, timestamp=1729560481823, value=DataCorp
+ application|002|p2|e2 column=employer_info:phone, timestamp=1729560481841, value=0425447890
+ application|002|p2|e2 column=position_info:position_number, timestamp=1729560481805, value=p2
+ application|002|p2|e2 column=position_info:salary, timestamp=1729560481818, value=90000
+ application|002|p2|e2 column=position_info:title, timestamp=1729560481808, value=Data Scientist
+ application|003|p3|e3 column=application_info:application_number, timestamp=1729560481844, value=333
+ application|003|p3|e3 column=application_info:education_level, timestamp=1729560481849, value=Diploma
+ application|003|p3|e3 column=application_info:total_skills, timestamp=1729560481847, value=7
+ application|003|p3|e3 column=employer_info:ename, timestamp=1729560481870, value=SupportHub
+ application|003|p3|e3 column=employer_info:phone, timestamp=1729560481871, value=0425438989
+ application|003|p3|e3 column=position_info:position_number, timestamp=1729560481862, value=p3
+ application|003|p3|e3 column=position_info:salary, timestamp=1729560481868, value=50000
+ application|003|p3|e3 column=position_info:title, timestamp=1729560481866, value=Technical Support
+6 row(s) in 0.0280 seconds
+

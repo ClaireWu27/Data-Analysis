@@ -1,0 +1,94 @@
+bigdata@bigdata-VirtualBox:~$ nc -lk 9999
+Sydney,25
+Wollongong,36
+Dapto,24
+Sydney,27
+Wollongong,34
+Dapto,26
+
+
+>>> from pyspark.sql import SparkSession
+>>> from pyspark.sql.functions import split, col, avg
+>>>
+>>> # Initialize Spark session
+>>> spark = SparkSession.builder.appName("TemperatureStream").getOrCreate()
+>>>
+>>> # Set up the schema of the incoming data
+>>> schema = "location STRING, temperature DOUBLE"
+>>>
+>>> # Read the streaming data from the socket (netcat)
+>>> temperature_stream = spark.readStream \
+... 	.format("socket") \
+... 	.option("host", "localhost") \
+... 	.option("port", 9999) \
+... 	.load()
+>>>
+>>> # Parse the incoming data
+>>> temperature_df = temperature_stream.select(
+... 	split(col("value"), ",").getItem(0).alias("location"),
+... 	split(col("value"), ",").getItem(1).cast("double").alias("temperature")
+... )
+>>>
+>>> # Calculate the running average temperature per location
+>>> average_temp_df = temperature_df.groupBy("location").agg(avg("temperature").alias("average_temperature"))
+>>>
+>>> # Write the results to the console in real-time
+>>> query = average_temp_df.writeStream \
+... 	.outputMode("complete") \
+... 	.format("console") \
+... 	.start()
+>>>
+>>> # Wait for the streaming to finish
+>>> query.awaitTermination()
+-------------------------------------------                                	 
+Batch: 0
+-------------------------------------------
++--------+-------------------+
+|location|average_temperature|
++--------+-------------------+
++--------+-------------------+
+
+-------------------------------------------                                	 
+Batch: 1
+-------------------------------------------
++----------+-------------------+
+|  location|average_temperature|
++----------+-------------------+
+| 	Dapto|           	24.0|
+|Wollongong|           	36.0|
+|	Sydney|           	25.0|
++----------+-------------------+
+
+-------------------------------------------                                	 
+Batch: 2
+-------------------------------------------
++----------+-------------------+
+|  location|average_temperature|
++----------+-------------------+
+| 	Dapto|           	24.0|
+|Wollongong|           	36.0|
+|	Sydney|           	26.0|
++----------+-------------------+
+
+-------------------------------------------                                	 
+Batch: 3
+-------------------------------------------
++----------+-------------------+
+|  location|average_temperature|
++----------+-------------------+
+| 	Dapto|           	24.0|
+|Wollongong|           	35.0|
+|	Sydney|           	26.0|
++----------+-------------------+
+
+-------------------------------------------                                	 
+Batch: 4
+-------------------------------------------
++----------+-------------------+
+|  location|average_temperature|
++----------+-------------------+
+| 	Dapto|           	25.0|
+|Wollongong|           	35.0|
+|	Sydney|           	26.0|
++----------+-------------------+
+

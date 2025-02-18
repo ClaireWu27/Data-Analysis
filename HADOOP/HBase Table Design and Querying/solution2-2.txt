@@ -1,0 +1,85 @@
+HBase Shell; enter 'help<RETURN>' for list of supported commands.
+Type "exit<RETURN>" to leave the HBase Shell
+Version 1.2.6, rUnknown, Mon May 29 02:25:32 CDT 2017
+
+scan 'task2-2', { COLUMNS => ['SUBJECT:code', 'FILES:fnumber1', 'FILES:fnumber2'] }
+ROW  COLUMN+CELL
+ subject|312 column=SUBJECT:code, timestamp=1729561661300, value=312
+ subject|313 column=SUBJECT:code, timestamp=1729561661314, value=313
+ submission|007|312|assignment|1 column=FILES:fnumber1, timestamp=1729561661351, value=path/file-name1-1
+ submission|007|312|assignment|1 column=FILES:fnumber2, timestamp=1729561661353, value=path/file-name1-1
+ submission|007|312|assignment|1 column=SUBJECT:code, timestamp=1729561661349, value=312
+ submission|007|312|assignment|2 column=FILES:fnumber2, timestamp=1729561661426, value=path/file-name2-2
+ submission|007|312|assignment|2 column=SUBJECT:code, timestamp=1729561661422, value=312
+ submission|007|313|project|1 column=FILES:fnumber1, timestamp=1729561661447, value=path/file-name3-1
+ submission|007|313|project|1 column=SUBJECT:code, timestamp=1729561661445, value=313
+ submission|666|312|assignment|1 column=FILES:fnumber1, timestamp=1729561661508, value=path/file-name1-1
+ submission|666|312|assignment|1 column=FILES:fnumber2, timestamp=1729561661510, value=path/file-name1-1
+ submission|666|312|assignment|1 column=SUBJECT:code, timestamp=1729561661495, value=312
+ submission|666|312|assignment|2 column=FILES:fnumber1, timestamp=1729561661530, value=path/file-name2-1
+ submission|666|312|assignment|2 column=FILES:fnumber2, timestamp=1729561661536, value=path/file-name2-2
+ submission|666|312|assignment|2 column=SUBJECT:code, timestamp=1729561661528, value=312
+ submission|666|313|project|1 column=FILES:fnumber1, timestamp=1729561661606, value=path/file-name3-1
+ submission|666|313|project|1 column=SUBJECT:code, timestamp=1729561661589, value=313
+8 row(s) in 0.1200 seconds
+
+
+get 'task2-2', 'subject|312', { COLUMNS => 'SUBJECT', VERSIONS => 2 }
+COLUMN  CELL
+ SUBJECT:code timestamp=1729561661300, value=312
+ SUBJECT:credits timestamp=1729561661311, value=6
+ SUBJECT:title timestamp=1729561661307, value=Big Data
+3 row(s) in 0.0110 seconds
+
+
+get 'task2-2', 'submission|007|312|assignment|1'
+COLUMN  CELL
+ FILES:fnumber1 timestamp=1729561661351, value=path/file-name1-1
+ FILES:fnumber2 timestamp=1729561661353, value=path/file-name1-1
+ STUDENT:snumbner timestamp=1729561661347, value=007
+ SUBJECT:code timestamp=1729561661349, value=312
+ SUBMISSION:dayslate timestamp=1729561661342, value=0
+ SUBMISSION:esignature timestamp=1729561661336, value=jb
+ SUBMISSION:sdate timestamp=1729562651447, value=02-APR-2019
+ SUBMISSION:tnumber timestamp=1729561661346, value=1
+ SUBMISSION:totalfiles timestamp=1729561661339, value=2
+ SUBMISSION:type timestamp=1729561661344, value=assignment
+10 row(s) in 0.0130 seconds
+
+
+put 'task2-2', 'submission|007|312|assignment|1', 'SUBMISSION:sdate', '02-APR-2019'
+0 row(s) in 0.0280 seconds
+
+
+get 'task2-2', 'submission|007|312|assignment|1', { COLUMNS => 'SUBMISSION' }
+COLUMN  CELL
+ SUBMISSION:dayslate timestamp=1729561661342, value=0
+ SUBMISSION:esignature timestamp=1729561661336, value=jb
+ SUBMISSION:sdate timestamp=1729562857476, value=02-APR-2019
+ SUBMISSION:tnumber timestamp=1729561661346, value=1
+ SUBMISSION:totalfiles timestamp=1729561661339, value=2
+ SUBMISSION:type timestamp=1729561661344, value=assignment
+6 row(s) in 0.0030 seconds
+
+
+alter 'task2-2', { NAME => 'DEGREE', VERSIONS => 1 }
+Updating all regions with the new schema...
+1/1 regions updated.
+Done.
+0 row(s) in 1.9360 seconds
+
+
+put 'task2-2', 'student|007', 'DEGREE:title', 'Bachelor of Computer Science'
+0 row(s) in 0.0050 seconds
+
+
+get 'task2-2', 'student|007'
+COLUMN  CELL
+ DEGREE:title timestamp=1729562859429, value=Bachelor of Computer Science
+ STUDENT:fname timestamp=1729561661251, value=James
+ STUDENT:lname timestamp=1729561661267, value=Bond
+ STUDENT:snumber timestamp=1729561661239, value=007
+4 row(s) in 0.0060 seconds
+
+
+
