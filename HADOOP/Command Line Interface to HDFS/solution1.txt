@@ -1,0 +1,113 @@
+(1)
+bigdata@bigdata-VirtualBox:~/Desktop$ cd /home/bigdata/Desktop
+bigdata@bigdata-VirtualBox:~/Desktop$ cat 1.txt
+1.txt
+Full name:Meihui Wu   Student number:8327464
+Enrolled Lab:13:30-15:30 Wednesday
+1111111
+bigdata@bigdata-VirtualBox:~/Desktop$ cat 2.txt
+2.txt
+Full name:Meihui Wu   Student number:
+Enrolled Lab:13:30-15:30 Wednesday
+22222
+
+(2)
+bigdata@bigdata-VirtualBox:~$ $HADOOP_HOME/sbin/start-all.sh
+WARNING: Attempting to start all Apache Hadoop daemons as bigdata in 10 seconds.
+WARNING: This is not a recommended production deployment configuration.
+WARNING: Use CTRL-C to abort.
+Starting namenodes on [localhost]
+Starting datanodes
+Starting secondary namenodes [bigdata-VirtualBox]
+Starting resourcemanager
+Starting nodemanagers
+bigdata@bigdata-VirtualBox:~$ jps
+4976 SecondaryNameNode
+5602 Jps
+5155 ResourceManager
+5285 NodeManager
+4766 DataNode
+4623 NameNode
+
+bigdata@bigdata-VirtualBox:~/Desktop$ cd $HADOOP_HOME
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -mkdir folder1
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -mkdir folder2
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -ls
+Found 2 items
+drwxr-xr-x   - bigdata supergroup          0 2024-07-31 14:39 folder1
+drwxr-xr-x   - bigdata supergroup          0 2024-07-31 14:39 folder2
+
+(3)
+
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -put /home/bigdata/Desktop/1.txt folder1
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -put /home/bigdata/Desktop/2.txt folder2
+
+(4)
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -ls folder1
+Found 1 items
+-rw-r--r--   1 bigdata supergroup         94 2024-07-31 14:41 folder1/1.txt
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -ls folder2
+Found 1 items
+-rw-r--r--   1 bigdata supergroup         92 2024-07-31 14:41 folder2/2.txt
+
+(5)
+
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -cat folder1/1.txt
+1.txt
+Full name:Meihui Wu   Student number:8327464
+Enrolled Lab:13:30-15:30 Wednesday
+1111111
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -cat folder2/2.txt
+2.txt
+Full name:Meihui Wu   Student number:8327464
+Enrolled Lab:13:30-15:30 Wednesday
+22222
+
+(6)
+
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -touchz merged.txt
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -cat folder1/1.txt |hdfs dfs -appendToFile - merged.txt
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -cat folder2/2.txt |hdfs dfs -appendToFile - merged.txt
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -ls
+Found 3 items
+drwxr-xr-x   - bigdata supergroup          0 2024-07-31 14:41 folder1
+drwxr-xr-x   - bigdata supergroup          0 2024-07-31 14:41 folder2
+-rw-r--r--   1 bigdata supergroup        186 2024-07-31 15:05 merged.txt
+
+(7)
+
+
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -cat merged.txt
+1.txt
+Full name:Meihui Wu   Student number:8327464
+Enrolled Lab:13:30-15:30 Wednesday
+1111111
+2.txt
+Full name:Meihui Wu   Student number:8327464
+Enrolled Lab:13:30-15:30 Wednesday
+22222
+
+(8)
+
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -copyToLocal  merged.txt /home/bigdata/Desktop/
+
+(9)
+
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -copyToLocal  merged.txt /home/bigdata/Desktop/
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -rm /user/bigdata/folder1/1.txt
+Deleted /user/bigdata/folder1/1.txt
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -rm /user/bigdata/folder2/2.txt
+Deleted /user/bigdata/folder2/2.txt
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -rm /user/bigdata/merged.txt
+Deleted /user/bigdata/merged.txt
+
+(10)
+
+
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -rm -r  /user/bigdata/folder1
+Deleted /user/bigdata/folder1
+bigdata@bigdata-VirtualBox:~/hadoop-3.3.6$ hdfs dfs -rm -r  /user/bigdata/folder2
+Deleted /user/bigdata/folder2
+
+
+

@@ -1,0 +1,68 @@
+>>>  CREATE TABLE employee ( 
+enum INT, 
+full_name VARCHAR(50), 
+assigned_project map<STRING,STRING >, 
+programming_languages array<STRING>, 
+employment_record STRUCT<hire_date: string, salary: INT, supervisor_enum: INT> 
+);
+No rows affected (0.067 seconds)
+>>>  INSERT INTO employee 
+SELECT 
+101, 
+'Alice Smith', 
+map('ProjectA', '85.50%', 'ProjectB', '92.75%'), 
+array('Java', 'Python'), 
+named_struct('hire_date', '2020-05-01', 'salary', 70000, 'supervisor_enum', 2001);
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+No rows affected (10.659 seconds)
+>>>  
+>>>  INSERT INTO employee 
+SELECT 
+102, 
+'Bob Johnson', 
+map('ProjectC', '78.25%', 'ProjectD', '88.90%'), 
+array('C++', 'JavaScript'), 
+named_struct('hire_date', '2019-03-15', 'salary', 65000, 'supervisor_enum', 2002);
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+No rows affected (13.148 seconds)
+>>>  INSERT INTO employee 
+SELECT 
+103, 
+'Charlie Brown', 
+map('ProjectE', '60.00%', 'ProjectF', '70.50%'), 
+array(), 
+named_struct('hire_date', '2021-07-10', 'salary', 50000, 'supervisor_enum', 2003);
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+No rows affected (11.69 seconds)
+>>>  
+>>>  INSERT INTO employee 
+SELECT 
+104, 
+'Diana Green', 
+map(), 
+array('C#', 'PHP'), 
+named_struct('hire_date', '2018-01-22', 'salary', 60000, 'supervisor_enum', 2004);
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+No rows affected (12.645 seconds)
+>>>  INSERT INTO employee 
+SELECT 
+105, 
+'Edward White', 
+map(), 
+array(), 
+named_struct('hire_date', '2022-02-20', 'salary', 50000, 'supervisor_enum', 2005);
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+No rows affected (13.102 seconds)
+>>>  
+>>>  
+>>>  select * from employee;
++----------------+---------------------+--------------------------------------------+---------------------------------+-------------------------------------------------------------------+--+
+| employee.enum  | employee.full_name  |         employee.assigned_project          | employee.programming_languages  |                    employee.employment_record                     |
++----------------+---------------------+--------------------------------------------+---------------------------------+-------------------------------------------------------------------+--+
+| 101            | Alice Smith         | {"ProjectA":"85.50%","ProjectB":"92.75%"}  | ["Java","Python"]               | {"hire_date":"2020-05-01","salary":70000,"supervisor_enum":2001}  |
+| 102            | Bob Johnson         | {"ProjectC":"78.25%","ProjectD":"88.90%"}  | ["C++","JavaScript"]            | {"hire_date":"2019-03-15","salary":65000,"supervisor_enum":2002}  |
+| 103            | Charlie Brown       | {"ProjectE":"60.00%","ProjectF":"70.50%"}  | []                              | {"hire_date":"2021-07-10","salary":50000,"supervisor_enum":2003}  |
+| 104            | Diana Green         | {}                                         | ["C#","PHP"]                    | {"hire_date":"2018-01-22","salary":60000,"supervisor_enum":2004}  |
+| 105            | Edward White        | {}                                         | []                              | {"hire_date":"2022-02-20","salary":50000,"supervisor_enum":2005}  |
++----------------+---------------------+--------------------------------------------+---------------------------------+-------------------------------------------------------------------+--+
+5 rows selected (0.139 seconds)

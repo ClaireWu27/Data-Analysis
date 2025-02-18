@@ -1,0 +1,104 @@
+(1)
+grunt> banks = load '/user/bigdata/bank.tbl' using PigStorage('|')
+>> as 
+>>  (bank_name:chararray,
+>>  hq_country:chararray,
+>>  hq_city:chararray,
+>>  hq_street:chararray,
+>>  hq_building_number:int,
+>>  web_site:chararray,
+>>  email:chararray,
+>>  bank_type:chararray);
+2024-10-15 15:13:05,224 [main] INFO  org.apache.hadoop.conf.Configuration.deprecation - fs.default.name is deprecated. Instead, use fs.defaultFS
+grunt> describe banks;
+banks: {bank_name: chararray,hq_country: chararray,hq_city: chararray,hq_street: chararray,hq_building_number: int,web_site: chararray,email: chararray,bank_type: chararray}
+
+
+grunt> accounts = load '/user/bigdata/account.tbl' using PigStorage('|')
+>>  as 
+>>  (account_number:chararray,
+>>  bank_name:chararray,
+>>  balance:float,
+>>  account_type:chararray);
+2024-10-15 15:14:18,918 [main] INFO  org.apache.hadoop.conf.Configuration.deprecation - fs.default.name is deprecated. Instead, use fs.defaultFS
+grunt> describe accounts;
+accounts: {account_number: chararray,bank_name: chararray,balance: float,account_type: chararray}
+
+
+grunt> transactions = load '/user/bigdata/transaction.tbl' using PigStorage('|') 
+>> as 
+>> (account_number:chararray, 
+>> bank_name:chararray, 
+>> date_time:chararray,
+>>  amount:float, 
+>> transaction_type:chararray);
+2024-10-15 15:19:32,024 [main] INFO  org.apache.hadoop.conf.Configuration.deprecation - fs.default.name is deprecated. Instead, use fs.defaultFS
+grunt> describe transactions;
+transactions: {account_number: chararray,bank_name: chararray,date_time: chararray,amount: float,transaction_type: chararray}
+
+(2)
+grunt> japan_banks = FILTER banks BY hq_country == 'Japan';
+grunt> japan_bank_names = FOREACH japan_banks GENERATE bank_name, bank_type;
+grunt> DUMP japan_bank_names;
+
+2024-10-15 15:20:20,626 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Success!
+2024-10-15 15:20:20,627 [main] INFO  org.apache.hadoop.conf.Configuration.deprecation - fs.default.name is deprecated. Instead, use fs.defaultFS
+2024-10-15 15:20:20,627 [main] INFO  org.apache.pig.data.SchemaTupleBackend - Key [pig.schematuple] was not set... will not generate code.
+2024-10-15 15:20:20,641 [main] INFO  org.apache.hadoop.mapreduce.lib.input.FileInputFormat - Total input paths to process : 1
+2024-10-15 15:20:20,642 [main] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil - Total input paths to process : 1
+(National Fuji Bank,commercial)
+(National Bank of Tokyo,commercial)
+(National Tokai Bank,central)
+(National Daiwa Bank,commercial)
+
+(3)
+
+grunt>construction_banks = FILTER banks BY bank_type == 'construction';
+grunt>construction_accounts = JOIN accounts BY bank_name, construction_banks BY bank_name;
+grunt>construction_account_numbers = FOREACH construction_accounts GENERATE accounts::account_number;
+grunt>DUMP construction_account_numbers;
+
+2024-10-15 15:25:21,257 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Success!
+2024-10-15 15:25:21,257 [main] INFO  org.apache.hadoop.conf.Configuration.deprecation - fs.default.name is deprecated. Instead, use fs.defaultFS
+2024-10-15 15:25:21,258 [main] INFO  org.apache.pig.data.SchemaTupleBackend - Key [pig.schematuple] was not set... will not generate code.
+2024-10-15 15:25:21,262 [main] INFO  org.apache.hadoop.mapreduce.lib.input.FileInputFormat - Total input paths to process : 1
+2024-10-15 15:25:21,262 [main] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil - Total input paths to process : 1
+(0123456788)
+(0593456725)
+(0313345681)
+(5122456739)
+(0123456789)
+
+
+
+(4)
+grunt> banks_with_accounts = JOIN banks BY bank_name LEFT OUTER, accounts BY bank_name;
+grunt> banks_no_accounts = FILTER banks_with_accounts BY accounts::account_number IS NULL; 
+grunt> banks_no_accounts_names = FOREACH banks_no_accounts GENERATE banks::bank_name; 
+grunt> DUMP banks_no_accounts_names;
+
+2024-10-15 15:30:20,611 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Success!
+2024-10-15 15:30:20,612 [main] INFO  org.apache.hadoop.conf.Configuration.deprecation - fs.default.name is deprecated. Instead, use fs.defaultFS
+2024-10-15 15:30:20,612 [main] INFO  org.apache.pig.data.SchemaTupleBackend - Key [pig.schematuple] was not set... will not generate code.
+2024-10-15 15:30:20,617 [main] INFO  org.apache.hadoop.mapreduce.lib.input.FileInputFormat - Total input paths to process : 1
+2024-10-15 15:30:20,617 [main] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil - Total input paths to process : 1
+(National American Savings Bank)
+(National China Construction Bank)
+
+
+(5)
+grunt> japan_banks = FILTER banks BY hq_country == 'Japan';
+grunt> japan_accounts = JOIN accounts BY bank_name, japan_banks BY bank_name;
+grunt> japan_account_count = GROUP japan_accounts BY accounts::bank_name;
+grunt> total_accounts_per_japan_bank = FOREACH japan_account_count GENERATE group AS bank_name, COUNT(japan_accounts) AS total_accounts;
+grunt> DUMP total_accounts_per_japan_bank;
+
+2024-10-15 15:32:26,902 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Success!
+2024-10-15 15:32:26,902 [main] INFO  org.apache.hadoop.conf.Configuration.deprecation - fs.default.name is deprecated. Instead, use fs.defaultFS
+2024-10-15 15:32:26,902 [main] INFO  org.apache.pig.data.SchemaTupleBackend - Key [pig.schematuple] was not set... will not generate code.
+2024-10-15 15:32:26,912 [main] INFO  org.apache.hadoop.mapreduce.lib.input.FileInputFormat - Total input paths to process : 1
+2024-10-15 15:32:26,912 [main] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil - Total input paths to process : 1
+(National Fuji Bank,3)
+(National Daiwa Bank,1)
+(National Tokai Bank,1)
+(National Bank of Tokyo,2)
