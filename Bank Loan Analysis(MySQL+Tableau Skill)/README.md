@@ -8,20 +8,27 @@ In order to monitor and assess our bank's lending activities and performance, we
 
 ## Dashboard 1: Summary
 
+![summary](./report%20image/summary.png)
+
 ### Key Performance Indicators (KPIs) Requirements:
+
 1. **Total Loan Applications**:
+
    - Calculate the total number of loan applications received during a specified period.
    - Monitor Month-to-Date (MTD) Loan Applications and track Month-over-Month (MoM) changes.
 
 2. **Total Funded Amount**:
+
    - Track the total amount of funds disbursed as loans.
    - Monitor MTD Total Funded Amount and analyse MoM changes.
 
 3. **Total Amount Received**:
+
    - Track the total amount received from borrowers to assess cash flow and loan repayment.
    - Analyse MTD Total Amount Received and MoM changes.
 
 4. **Average Interest Rate**:
+
    - Calculate the average interest rate across all loans, MTD, and monitor MoM variations.
 
 5. **Average Debt-to-Income Ratio (DTI)**:
@@ -30,26 +37,34 @@ In order to monitor and assess our bank's lending activities and performance, we
 ### Good Loan vs. Bad Loan KPIs
 
 #### Good Loan KPIs:
+
 1. **Good Loan Application Percentage**:
+
    - Calculate the percentage of loan applications classified as 'Good Loans' (status: 'Fully Paid' and 'Current').
 
 2. **Good Loan Applications**:
+
    - Identify the total number of loan applications under 'Good Loan' category (status: 'Fully Paid' and 'Current').
 
 3. **Good Loan Funded Amount**:
+
    - Determine the total amount disbursed as 'Good Loans' (status: 'Fully Paid' and 'Current').
 
 4. **Good Loan Total Received Amount**:
    - Track the total amount received from borrowers for 'Good Loans' (status: 'Fully Paid' and 'Current').
 
 #### Bad Loan KPIs:
+
 1. **Bad Loan Application Percentage**:
+
    - Calculate the percentage of loan applications categorized as 'Bad Loans' (status: 'Charged Off').
 
 2. **Bad Loan Applications**:
+
    - Identify the total number of loan applications categorized as 'Bad Loans' (status: 'Charged Off').
 
 3. **Bad Loan Funded Amount**:
+
    - Determine the total amount disbursed as 'Bad Loans' (status: 'Charged Off').
 
 4. **Bad Loan Total Received Amount**:
@@ -58,6 +73,7 @@ In order to monitor and assess our bank's lending activities and performance, we
 ### Loan Status Grid View
 
 Create a grid view report categorized by **Loan Status** to analyse metrics such as:
+
 - Total Loan Applications
 - Total Funded Amount
 - Total Amount Received
@@ -72,9 +88,12 @@ This report provides insights to assess the health of our loan portfolio.
 
 ## Dashboard 2: Overview
 
+![summary](./report%20image/overview.png)
+
 ### Chart Requirements:
 
 1. **Monthly Trends by Issue Date**:
+
    - **Chart Type**: Line Chart
    - **Metrics**: Total Loan Applications, Total Funded Amount, Total Amount Received
    - **X-Axis**: Month (based on Issue Date)
@@ -82,18 +101,21 @@ This report provides insights to assess the health of our loan portfolio.
    - **Objective**: Identify seasonality and long-term trends in lending activities.
 
 2. **Regional Analysis by State**:
+
    - **Chart Type**: Filled Map
    - **Metrics**: Total Loan Applications, Total Funded Amount, Total Amount Received
    - **Regions**: States
    - **Objective**: Visualize lending metrics by state to identify regional disparities.
 
 3. **Loan Term Analysis**:
+
    - **Chart Type**: Donut Chart
    - **Metrics**: Total Loan Applications, Total Funded Amount, Total Amount Received
    - **Segments**: Loan Terms (e.g., 36 months, 60 months)
    - **Objective**: Understand distribution of loans across term lengths.
 
 4. **Employee Length Analysis**:
+
    - **Chart Type**: Bar Chart
    - **Metrics**: Total Loan Applications, Total Funded Amount, Total Amount Received
    - **X-Axis**: Employee Length Categories (e.g., 1 year, 5 years, 10+ years)
@@ -101,6 +123,7 @@ This report provides insights to assess the health of our loan portfolio.
    - **Objective**: Assess the impact of employment history on loan applications.
 
 5. **Loan Purpose Breakdown**:
+
    - **Chart Type**: Bar Chart
    - **Metrics**: Total Loan Applications, Total Funded Amount, Total Amount Received
    - **X-Axis**: Loan Purpose Categories (e.g., debt consolidation, credit card refinancing)
@@ -117,11 +140,14 @@ This report provides insights to assess the health of our loan portfolio.
 
 ## Dashboard 3: Details
 
+![summary](./report%20image/details.png)
+
 ### Objective
 
 The **Details Dashboard** provides a consolidated view of key loan-related metrics and data points, enabling users to access vital loan data efficiently.
 
 ### Features:
+
 - Comprehensive snapshot of the loan portfolio
 - Detailed insights into borrower profiles
 - Assessment of loan performance
