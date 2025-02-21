@@ -1,3 +1,32 @@
+# Product Sales Analysis
+
+## Objective
+
+The goal of this project is to analyze the effectiveness of different sales strategies used to promote a newly launched line of office stationery. The findings will help the sales team optimize customer engagement and maximize profitability while ensuring efficient resource allocation.
+
+## Key Goals
+
+1. **Evaluate Sales Strategies**
+
+   - Assess the performance of three sales methods: **Email, Call, and Email + Call**
+   - Measure their impact on customer engagement and revenue generation
+
+2. **Revenue Distribution Analysis**
+
+   - Examine how revenue is distributed across different customer groups and sales strategies
+
+3. **Temporal Sales Trends**
+
+   - Identify variations in revenue performance over time for each sales method.
+
+4. **Recommendation for Future Strategy**
+   - Provide data-driven insights to determine the most effective sales approach
+   - Optimize resource allocation while balancing the sales team's workload
+
+## Expected Impact
+
+This analysis will support **strategic decision-making** for future product launches and help refine sales methodologies based on real data-driven insights.
+
 # 1. Data Loading
 
 ```python
